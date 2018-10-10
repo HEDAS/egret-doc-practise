@@ -267,16 +267,62 @@ var Main = (function (_super) {
         //     circle.removeEventListener(egret.TouchEvent.TOUCH_END, endMove, this);
         // }
         //添加与删除显示对象
-        var shape = new egret.Shape();
-        shape.graphics.beginFill(0xff0000);
-        shape.graphics.drawRect(0, 0, 100, 100);
-        shape.graphics.endFill();
-        this.addChild(shape);
-        shape.touchEnabled = true;
-        shape.addEventListener(egret.TouchEvent.TOUCH_TAP, remove, this);
-        function remove(e) {
-            this.removeChild(shape);
-        }
+        // let shape: egret.Shape = new egret.Shape();
+        // shape.graphics.beginFill(0xff0000);
+        // shape.graphics.drawRect(0, 0, 100, 100);
+        // shape.graphics.endFill();
+        // this.addChild(shape);        //显示对象的坐标系是相对坐标系，而非绝对坐标系。相对于父级原点的位置。
+        // shape.touchEnabled = true;   //同一个显示对象无论被代码加入显示列表多少次，在屏幕上只绘制一次。
+        // shape.addEventListener(egret.TouchEvent.TOUCH_TAP, remove, this);
+        // function remove(e: egret.TouchEvent) {
+        //     //该对象存在，但已被移除显示列表，画面上不显示，驻于内存中
+        //     //最佳的删除方式
+        //     if (shape.parent) {
+        //         this.removeChild(shape);
+        //     }
+        // }
+        //深度管理
+        // let spr1: egret.Sprite = new egret.Sprite();
+        // spr1.graphics.beginFill(0xff0000);
+        // spr1.graphics.drawRect(0, 0, 100, 100);
+        // spr1.graphics.endFill();
+        // this.addChild(spr1);
+        // let spr2: egret.Sprite = new egret.Sprite();
+        // spr2.graphics.beginFill(0x00ff00);
+        // spr2.graphics.drawRect(0, 0, 80, 80);
+        // spr2.graphics.endFill();
+        // this.addChild(spr2);
+        // spr2.x = 50;
+        // spr2.y = 50;
+        //添加指定深度的对象：容器.addChild( 显示对象 )、容器.addChildAt( 显示对象, 深度值 )
+        //删除指定深度的对象：容器.removeChild( 显示对象 )、容器.removeChildAt( 深度值 )
+        //使用 容器.removeChildren() 方法可以将当前容器内的所有子对象全部移除显示列表。
+        //当前容器的子对象数量。容器.numChildren 属性
+        //交换不同深度对象：容器.swapChildren( 显示对象, 显示对象 )、容器.swapChildrenAt( 深度值, 深度值 )
+        //重设子对象深度：容器.setChildIndex( 显示对象, 新的深度值 )
+        //访问容器子对象（DisplayObject好用），比下面方法快：let _spr:egret.DisplayObject = 容器.getChildAt( 深度值 )
+        //getChildByName要事先设置子对象的name属性：let _spr:egret.DisplayObject = 容器.getChildByName(显示对象)
+        // let sprcon: egret.Sprite = new egret.Sprite();
+        // this.addChild(sprcon);
+        // sprcon.x = 50;
+        // for (let i = 0; i < 4; ++i) {
+        //     let spr: egret.Shape = new egret.Shape();
+        //     spr.graphics.beginFill(0xffffff * Math.random());
+        //     spr.graphics.drawRect(0, 0, 100, 100);
+        //     spr.graphics.endFill();
+        //     sprcon.addChild(spr);
+        //     spr.x = i * 20;
+        // }
+        // let sprNew: egret.Sprite = new egret.Sprite();
+        // sprNew.graphics.beginFill(0xff0000);
+        // sprNew.graphics.drawRect(0, 0, 300, 150);
+        // sprNew.graphics.endFill();
+        // sprNew.x = 10;
+        // sprNew.y = 50;
+        // sprcon.addChildAt(sprNew, 1);
+        //使用矢量绘图
+        var shp = new egret.Shape();
+        this.addChild(shp);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
