@@ -1,0 +1,25 @@
+{
+    "file": "button.png",
+    "frames": {
+        "new_button_down1_png": {
+            "x": 1,
+            "y": 53,
+            "w": 133,
+            "h": 48,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 133,
+            "sourceH": 48
+        },
+        "new_button_up1_png": {
+            "x": 1,
+            "y": 1,
+            "w": 133,
+            "h": 48,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 133,
+            "sourceH": 48
+        }
+    }
+}

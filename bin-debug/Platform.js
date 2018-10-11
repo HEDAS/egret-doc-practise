@@ -42,14 +42,14 @@ var DebugPlatform = (function () {
     DebugPlatform.prototype.getUserInfo = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, { nickName: "username" }];
+                return [2, { nickName: "username" }];
             });
         });
     };
     DebugPlatform.prototype.login = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                return [2];
             });
         });
     };

@@ -8,7 +8,6 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
-// TypeScript file
 var GridSprite = (function (_super) {
     __extends(GridSprite, _super);
     function GridSprite(width) {

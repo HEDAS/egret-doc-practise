@@ -22,7 +22,7 @@ var AnchorTest = (function (_super) {
         shape.graphics.endFill();
         shape.x = 100;
         shape.y = 100;
-        shape.anchorOffsetX = 50; //正数向左移动
+        shape.anchorOffsetX = 50;
         this.addChild(shape);
     };
     return AnchorTest;

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,GraphicsDemo_png,cool_fnt,cool_png,new_button_down_png,new_button_up_png,button_json,run_png,pig_png,main_map_jpg",
 			"name": "preload"
 		}
 	],
@@ -97,16 +97,6 @@
 			"name": "on_png"
 		},
 		{
-			"url": "assets/Button/button_down.png",
-			"type": "image",
-			"name": "button_down_png"
-		},
-		{
-			"url": "assets/Button/button_up.png",
-			"type": "image",
-			"name": "button_up_png"
-		},
-		{
 			"url": "assets/ProgressBar/thumb_pb.png",
 			"type": "image",
 			"name": "thumb_pb_png"
@@ -132,9 +122,55 @@
 			"name": "egret_icon_png"
 		},
 		{
-			"name": "description_json",
+			"url": "config/description.json",
 			"type": "json",
-			"url": "config/description.json"
+			"name": "description_json"
+		},
+		{
+			"url": "assets/GraphicsDemo.png",
+			"type": "image",
+			"name": "GraphicsDemo_png"
+		},
+		{
+			"url": "cool.fnt",
+			"type": "font",
+			"name": "cool_fnt"
+		},
+		{
+			"url": "cool.png",
+			"type": "image",
+			"name": "cool_png"
+		},
+		{
+			"url": "new_button_down.png",
+			"type": "image",
+			"name": "new_button_down_png"
+		},
+		{
+			"url": "new_button_up.png",
+			"type": "image",
+			"name": "new_button_up_png"
+		},
+		{
+			"name": "button_json",
+			"type": "sheet",
+			"url": "button.json",
+			"subkeys": "new_button_down1_png,new_button_up1_png"
+		},
+		{
+			"name": "run_png",
+			"type": "image",
+			"url": "run.png"
+		},
+		{
+			"name": "pig_png",
+			"type": "image",
+			"url": "pig.png"
+		},
+		{
+			"name": "main_map_jpg",
+			"type": "image",
+			"url": "main_map.jpg"
 		}
 	]
 }
