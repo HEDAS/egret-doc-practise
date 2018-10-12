@@ -36,6 +36,7 @@ class Main extends eui.UILayer {
      * TODO: 多看项目
      * TODO: 网路那一章的内容先跳过不看
      * TODO: 数据库，服务器端，美术资源
+     * TODO: 小游戏最后搞明白！
      */
 
     protected createChildren(): void {
@@ -922,10 +923,321 @@ class Main extends eui.UILayer {
 
 
 
-        // 模糊滤镜        
-        let animal: egret.Bitmap = this.createBitmapByName("pig_png");
-        this.addChild(animal);
+        // 模糊滤镜，通过 BlurFilter 类设置模糊滤镜。
+        // let animal: egret.Bitmap = this.createBitmapByName("pig_png");
+        // this.addChild(animal);
+        // // animal.cacheAsBitmap = true;
+
+        // let blurFilter = new egret.BlurFilter(10, 10);  // x 、y 方向的模糊度。值越大效果越模糊。
+        // animal.filters = [blurFilter];
+
+        // 需要注意的是模糊滤镜对性能的消耗比较大，应谨慎使用。普通显示对象可以开启 cacheAsBitmap 提高一些性能。
+        // 显示对象的 filters 属性可以保存多个滤镜效果，比如同时使用hero.filters = [blurFliter,colorFlilter]; 模糊和颜色矩阵滤镜效果。多个效果同时生效。
+
+
+
+        // 投影滤镜
+        // let animal: egret.Bitmap = this.createBitmapByName("pig_png");
+        // this.addChild(animal);
+
+        // // 创建投影滤镜
+        // let distance: number = 6;           /// 阴影的偏移距离，以像素为单位
+        // let angle: number = 45;              /// 阴影的角度，0 到 360 度
+        // let color: number = 0x000000;        /// 阴影的颜色，不包含透明度
+        // let alpha: number = 0.7;             /// 光晕的颜色透明度，是对 color 参数的透明度设定
+        // let blurX: number = 16;              /// 水平模糊量。有效值为 0 到 255.0（浮点）
+        // let blurY: number = 16;              /// 垂直模糊量。有效值为 0 到 255.0（浮点）
+        // let strength: number = 0.65;                /// 压印的强度，值越大，压印的颜色越深，而且阴影与背景之间的对比度也越强。有效值为 0 到 255。暂未实现
+        // let quality: number = egret.BitmapFilterQuality.LOW;              /// 应用滤镜的次数，暂无实现
+        // let inner: boolean = false;            /// 指定发光是否为内侧发光
+        // let knockout: boolean = false;            /// 指定对象是否具有挖空效果
+        // let dropShadowFilter: egret.DropShadowFilter = new egret.DropShadowFilter(distance, angle, color, alpha, blurX, blurY, strength, quality, inner, knockout);
+
+        // // 应用滤镜        
+        // animal.filters = [dropShadowFilter];
+        // // 对比发光滤镜，可以看到投影滤镜的构造函数正好比发光滤镜多出前两个参数：distance 和 angle 。
+        // // 在投影滤镜的 distance 和 angle 属性设置为 0 时，投影滤镜与发光滤镜极为相似。
+
+
+
+        /**
+         * TODO: 自定义Shader暂时不看
+         */
+
+
+
+        // 时间控制，想象一个真正的手机计时器
+        // Timer 相关的有两个属性，三个方法和两个事件。
+        // 两个属性是 delay 与 repeatCount ,分别表示每次间隔的时间（以毫秒为单位）和执行的次数（如果次数为0，则表示不停的执行）。
+        // 三个方法为 start, reset 和 stop。作用分别是开始计时，重新计时和暂停计时。
+        // 两个事件分别为 TimerEvent.TIMER 和 TimerEvent.TIMER_COMPLETE 。分别在计时过程中触发和计时结束后触发。
+        // let timer: egret.Timer = new egret.Timer(10000, 2);
+
+        // timer.addEventListener(egret.TimerEvent.TIMER, timing, this);
+        // timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, timerComplete, this);
+
+        // //务必要手动启动计时器！
+        // timer.start();
+
+        // function timing(e: egret.TimerEvent) {
+        //     console.log("计时");
+        // }
+
+        // function timerComplete(e: egret.TimerEvent) {
+        //     console.log("计时结束");
+        // }
+
+
+
+        // Ticker 心跳
+        // startTick（停止对应stopTick）全局函数将以 60 帧速率回调函数。
+        // 它与 ENTER_FRAME 事件不同。ENTER_FRAME 是每帧回调，改变帧率会改变回调速度；
+        // startTick是定时回调，改变帧率也不会影响回调速度。
+        // let animal: egret.Bitmap = this.createBitmapByName("pig_png");
+        // this.addChild(animal);
+        // this.animal = animal;
+        // this.time = egret.getTimer();   // 返回自启动 Egret 框架以来经过的毫秒数。
+        // console.log(this.time);
+        // egret.startTick(moveStar, this);// 注册并启动一个计时器，通常会以60FPS的速率触发回调方法，并传入当前时间戳
+
+        // function moveStar(timeStamp: number) {
+        //     let now = timeStamp;
+        //     let time = this.time;
+        //     let pass = now - time;
+        //     console.log("moveAnimal: ", (1000 / pass).toFixed(5));// 将数字转换为一个小数点后有指定num位的字符串
+        //     // 证明了startTick大概是以1/60s的速度来回调的！
+        //     this.time = now;
+
+        //     //移动animal
+        //     animal.x += this.speed * pass;
+        //     if (animal.x > 300) {
+        //         egret.stopTick(moveStar, this);
+        //     }
+        //     return true;
+        // }
+        // startTick 函数有两个传入参数，第一个参数是回调函数，该回调函数要求有返回值，如果返回为true将在回调函数执行完成之后立即重绘，为false则不会重绘。
+        // 第二个参数是this对象，通常传入this即可。
+
+
+
+        // 帧事件
+        // let animal: egret.Bitmap = this.createBitmapByName("pig_png");
+        // this.addChild(animal);
+        // this.addEventListener(egret.TimerEvent.ENTER_FRAME, onEnterFrame, this);
+        // this.time = egret.getTimer();
+
+        // function onEnterFrame(e: egret.TimerEvent) {
+        //     let now = egret.getTimer();
+        //     let time = this.time;
+        //     let pass = now - time;
+        //     console.log("onEnterFrame: ", (1000 / pass).toFixed(5));
+        //     this.time = egret.getTimer();   // 好吧，更公正一点
+
+        //     //移动animal
+        //     animal.x += this.speed * pass;
+        //     if (animal.x > 300) {
+        //         this.removeEventListener(egret.TimerEvent.ENTER_FRAME, onEnterFrame, this);
+        //     }
+        // }
+        // 通过计算时间间隔来实现位移会使动画看起来更平滑一些，因为每帧的时间间隔不是固定的。
+
+
+
+        // 音频示例
+        // 通过 var sound: egret.Sound = new egret.Sound() 创建 Sound 对象，
+        // 再通过 sound.load(url)加载，Sound 类支持的事件类型有两个：
+        // egret.Event.COMPLETE 音频加载完成时抛出；
+        // egret.IOErrorEvent.IO_ERROR 音频加载失败时抛出.
+
+        // 通过Sound加装音频        
+        // let sound = new egret.Sound();
+        // sound.addEventListener(egret.Event.COMPLETE, (evt: egret.Event) => {
+        //     sound.play(0, 2);
+        // }, this);   //一定要由sound来注册监听器
+        // sound.addEventListener(egret.IOErrorEvent.IO_ERROR, (e: egret.IOErrorEvent) => {
+        //     console.log("加载音频失败！");
+        // }, this);
+        // sound.load("resource/zhuanpan.mp3");    // 监听事件最好放在前面
+
+
+
+        // 通过 URLLoader 加装音频，需要加载game库
+        // let loader: egret.URLLoader = new egret.URLLoader();
+        // loader.addEventListener(egret.Event.COMPLETE, (evt: egret.Event) => {
+        //     let sound = loader.data;
+        //     sound.play(0, 2);
+        // }, this)
+        // loader.dataFormat = egret.URLLoaderDataFormat.SOUND;
+        // loader.load(new egret.URLRequest("resource/zhuanpan.mp3"));
+
+
+
+        // 通过 res 加装音频
+        // let sound = RES.getRes("zhuanpan_mp3");
+        // sound.play(0, 2);
+
+
+
+        // play() 方法播放音频，有2个参数。startTime：声音开始播放的位置，默认为0。loops：声音播放的次数，小于等于0均为无限循环播放，大于0按照对应的值播放次数。
+        // 运行 play() 之后，会返回一个 SoundChannel 对象，开发者可以直接对 SoundChannel 进行操作，比如设置音量等。
+        // SoundChannel 对象的 egret.Event.SOUND_COMPLETE 事件是播放完成事件。
+        // 根据 SoundChannel 返回的 position 属性和 Sound 的 play() 方法可实现暂停和重播功能。
+        // stop() 方法停止播放。
+
+        // 目前引擎内提供了4种声音的兼容模式，分别是 Audio、 WebAudio、QQAudio（qzone提供的声音解决方案）、以及 NativeAudio（打包方案Audio）
+        // WebAudio：IOS系统版本大于等于7的所有IOS版本的浏览器，Egret 3.2.0 以后 Android 默认也使用 WebAudio，如果不支持 WebAudio 的 app 则会自动改成 Audio 方式。
+        // QQAudio：在html页面指定了 “ https://qzonestyle.gtimg.cn/qzone/hybrid/lib/jsbridge.js ” （Qzone使用的js api）并且运行在qq空间的 android 机型。
+        // Audio：除使用 WebAudio 以及 QQAudio 外的其他所有的 Web 浏览器或者平台。可能出现的问题是声音播放有延迟，同一时间只能有一个音频的存在。
+        // NativeAudio：打包方案使用的audio。
+        // 设置播放类型在项目根目录下的 index.html 模板文件中进行："audioType": 0 //Use the audio type, 0: default, 2: web audio, 3: audio
+
+        // 播放多个音频        
+        // let sound1 = RES.getRes("zhuanpan_mp3");
+        // sound1.play(0, 1);
+        // let sound2 = RES.getRes("steal_mp3");
+        // sound2.play(0, 2);
+
+
+
+        // 注意事项
+        // 声音资源的格式生成请严格按照此步骤来，不然会影响兼容性。
+        // 使用格式工厂。选择 44100Hz，96kbps 转换。
+        // 如果还有问题，请再转一次。
+        // 如果还有问题，请裁减音频长度再次转换。
+        // 如果还有问题，请到论坛联系开发者论坛，并提供对应的音频文件。
+        // 如果有问题，请尝试多转几次。
+        // 对于更专业的转换工具比如 audition，在测试中发现转换后的文件并不能解决在所有的浏览器中的播放问题，所以不推荐大家使用。
+        // 在 iOS 系统（所有设备，包括IPAD）中，使用者在可能付费的网络环境中需要等待用户交互操作后才能播放媒体。为了获得在 iOS 系统中最大的兼容性，请避免使用自动播放音频（载入完成即播放），应添加合适的触发条件（比如播放按钮）。
+        // 如果使用 WebAudio 方式还不能自动播放的话，那么目前来说没有其他方式来解决自动播放的问题。
+        // iOS 游戏的域名必须要在玩吧指定的域名下才可以使用上面提到的Qzone的js api(jsBridge)。
+        // 由于一些浏览器不支持直接加载后播放，因此建议先预加载音乐文件，并在点击事件时直接调用 sound.play()。
+        // 非 WebAudio 方式播放的音频，很有可能在浏览器只能同时播放一种声音（这个也是为什么qzone单独提供了声音解决方案）。
+
+
+
+        // 官方的例子        
+        // let soundExample = new SoundExample();
+        // this.addChild(soundExample);
+
+
+
+        // 视频
+        // TODO: 暂时跳过视频和环境信息
+
+
+
+        // WebGL渲染
+        // 在开启 WebGL 渲染模式下，如果浏览器不支持将自动切换到 Canvas 渲染模式下。
+        // 开启 WebGL 渲染
+        // 找到 index.html 文件，然后开启 egret.runEgret({renderMode:"webgl"});  //也可以指定为canvas
+        // 判断当前的渲染模式
+        // 可以通过 Capabilities 类的 renderMode 来判断当前的渲染模式。
+        // 目前暂时在 WebGL 下关闭了的脏矩形渲染
+        // 使用 WebGL 渲染可以得到性能提升。但在使用很多文本和矢量绘图的情况下，可能有更多的开销，起不到提升性能的作用。
+        // 在 WebGL 下如果要使用 Texture 对象的 toDataURL() 方法把纹理转换为 base64 字符串，那么纹理图片应放在同一服务器下，引用不同的服务器下的资源将不成功。
+        // 当然 WebGL 标准正在普及，在手机上有些特性支持还不是很友好。手机上非 Chrome 浏览器现在对不规则遮罩支持还不是很好，在使用 WebGL 渲染器时可以尽量避免使用不规则遮罩。
+
+        // console.log(egret.Capabilities.renderMode);
+
+
+
+        // 缩放模式： Egret 目前支持的模式有：showAll, noScale, noBorder, exactFit, fixedWidth, fixedHeight, fixedNarrow, fixedWide
+        // 也可以在代码中修改：
+        // showAll模式：舞台尺寸(stage.stageWidth,stage.stageHeight)始终等于初始化时外部传入的应用程序内容尺寸
+        // noScale 模式：在此模式下，舞台尺寸（stage.stageWidth,stage.stageHeight）始终跟播放器窗口大小保持一致。
+        // noBorder 模式：缩放后应用程序内容向较宽方向填满播放器窗口，不会有黑边存在，另一个方向的两侧可能会超出播放器窗口而被裁切，只显示中间的部分。
+        // exactFit 模式：直接拉伸，暴力填充整个屏幕。
+        // fixedWidth 模式：优先宽的部分缩放程度没那么大
+        // fixedHeight 模式优先高的部分缩放程度没那么大
+        // fixedNarrow 模式：保持原始宽高比缩放应用程序内容，缩放后应用程序内容在水平和垂直方向都填满播放器视口，应用程序内容的较窄方向可能会不够宽而填充。
+        // fixedWide 模式：保持原始宽高比缩放应用程序内容，缩放后应用程序内容在水平和垂直方向都填满播放器视口，应用程序内容的较宽方向的两侧可能会超出播放器视口而被裁切。
+
+        // fixedNarrow 模式和fixedWide 模式，可以理解为fixedWidth和fixedHeight的高级封装，显示效果与那两种模式类似，
+        // 但是决定缩放比例的方向不是定死的，而是根据内容距离屏幕的边距宽窄来决定。在这两种模式下可以比较方便的布局 UI。
+        // this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
+
+
+
+        // 旋转模式：auto、portrait、landscape、landscapeFlipped
+        // landscape 和 landscapeFlipped 这两种模式，一般用于横屏游戏，但需要提示用户关闭重力感应锁，锁定屏幕方向。
+        // 也可以在代码中修改：
+        // this.stage.orientation = egret.OrientationMode.AUTO;
+
+
+
+        // 调试
+        // 使用 DEBUG 编译参数
+        // 开发者经常写一些希望仅在开发阶段使用的代码，来进行数据校验、输出日志等。
+        // Egret 提供了 DEBUG 这一全局变量来实现这样的功能。
+        // 下面的代码校验 value 是不是由4个数字组成，如果不是，输出指定的错误信息。
+
+        // 下面代码不能运行的！        
+        // let value="1,2,3,4"        
+        // if (DEBUG) {
+        //     var rect = value.split(",");
+        //     if (rect.length != 4 || isNaN(parseInt(rect[0])) || isNaN(parseInt(rect[1])) ||
+        //         isNaN(parseInt(rect[2])) || isNaN(parseInt(rect[3]))) {
+        //         egret.$error(2016, this.currentClassName, toXMLString(node));
+        //     }
+        // }
+
+        // 在发行版生成过程中，Egret 命令行会移除 if(DEBUG){ ... } 这一整个代码块，保持发行版包体的精简。
+        // Egret 还提供了另外一个与 DEBUG 对应的编译参数 RELEASE，用来编写只在发行版中运行的代码。
+
+
+
+        // 在PC端可使用 console 提供的诸多方法输出日志，然后使用浏览器提供的开发者工具查看。
+        // 但是在移动端这个方式受到了限制，大多数移动端浏览器没有查看日志的方法。
+        // 因此 Egret 集成了向屏幕输出日志的功能，以方便移动设备调试。
+
+        // 在 index.html 文件中有如下代码块：
+        //     <div style="margin: auto;width: 100%;height: 100%;" class="egret-player"
+        //         data-entry-class="Main"
+        //         data-orientation="auto"
+        //         data-scale-mode="noScale"
+        //         data-frame-rate="30"
+        //         data-content-width="480"
+        //         data-content-height="800"
+        //         data-show-paint-rect="false"
+        //         data-multi-fingered="2"
+        //         data-show-fps="true" data-show-log="false"
+        //         data-log-color="#b0b0b0"> 
+        //     </div>
+        // 通过 data-show-log： 设置是否在屏幕中显示日志。 true 显示，false 不显示。
+        // 在代码中可以直接调用 egret.log(message?:any, ...optionalParams:any[]) 来输出日志。
+        // egret.log("hello,老师", [1, 2, 2]);
+
+
+
+        // 帧频
+        // FPS: 60 - 帧频
+        // Draw: 13 - 每帧 draw 方法调用的平均次数
+        // Cost: 0,0,0 - Ticker 和 EnterFrame 阶段显示的耗时,每帧舞台所有事件处理和矩阵运算耗时，绘制显示对象耗时（单位是ms）
+
+
+
+        /**
+         * TODO: 扩展插件暂时不看
+         */
+
+
+
+        // ts 与 js 互调
+        // ts 是 js 的超集，因此只要是 js 与 js 可以互相调用的，ts 均可以调用，只不过需要增加声明来解决编译时报错。
+        // ts 最终生成的文件为 js，因此 js 调用 ts 其实就是 js 调用 js（ts 生成的 js 文件）。
+        /**
+         * TODO: 暂时用不到ts、js相互调用，先不看
+         */
+
+
+
+        // 发布项目：egret publish，或者用launcher来发布
+        // 在 Html5 类型里可以填写版本号，用于版本控制。查看bin-release文件夹
     }
+
+    private animal: egret.Bitmap;
+    private speed: number = 0.05;
+    private time: number = 0;
 
     private showMsg: egret.TextField;
     /**

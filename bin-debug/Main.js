@@ -46,7 +46,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.speed = 0.05;
+        _this.time = 0;
+        return _this;
     }
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
@@ -125,19 +128,7 @@ var Main = (function (_super) {
         });
     };
     Main.prototype.createGameScene = function () {
-        var animal = this.createBitmapByName("pig_png");
-        this.addChild(animal);
-        var colorMatrix = [
-            0.3, 0.6, 0, 0, 0,
-            0.3, 0.6, 0, 0, 0,
-            0.3, 0.6, 0, 0, 0,
-            0, 0, 0, 1, 0
-        ];
-        var colorFlilter = new egret.ColorMatrixFilter(colorMatrix);
-        animal.filters = [colorFlilter];
-        var test = colorFlilter.matrix;
-        test[4] = 100;
-        colorFlilter.matrix = test;
+        egret.log("hello,老师", [1, 2, 2]);
     };
     Main.prototype.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
