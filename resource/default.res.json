@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,GraphicsDemo_png,cool_fnt,cool_png,new_button_down_png,new_button_up_png,button_json,run_png,pig_png,main_map_jpg,zhuanpan_mp3,steal_mp3",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,GraphicsDemo_png,cool_fnt,cool_png,new_button_down_png,new_button_up_png,button_json,run_png,pig_png,main_map_jpg,zhuanpan_mp3,steal_mp3,house_papapa_json,7262f15fd9a1c0402837510b326cc952cdb33755_jpg",
 			"name": "preload"
 		}
 	],
@@ -181,6 +181,17 @@
 			"name": "steal_mp3",
 			"type": "sound",
 			"url": "steal.mp3"
+		},
+		{
+			"name": "house_papapa_json",
+			"type": "sheet",
+			"url": "house_papapa.json",
+			"subkeys": "1_png,2_png,3_png,4_png"
+		},
+		{
+			"name": "7262f15fd9a1c0402837510b326cc952cdb33755_jpg",
+			"type": "image",
+			"url": "7262f15fd9a1c0402837510b326cc952cdb33755.jpg"
 		}
 	]
 }

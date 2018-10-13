@@ -1,0 +1,45 @@
+{
+    "file": "house_papapa.png",
+    "frames": {
+        "1_png": {
+            "x": 0,
+            "y": 0,
+            "w": 92,
+            "h": 77,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 92,
+            "sourceH": 77
+        },
+        "2_png": {
+            "x": 94,
+            "y": 0,
+            "w": 76,
+            "h": 67,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 76,
+            "sourceH": 67
+        },
+        "3_png": {
+            "x": 94,
+            "y": 69,
+            "w": 76,
+            "h": 67,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 76,
+            "sourceH": 67
+        },
+        "4_png": {
+            "x": 0,
+            "y": 79,
+            "w": 76,
+            "h": 67,
+            "offX": 0,
+            "offY": 0,
+            "sourceW": 76,
+            "sourceH": 67
+        }
+    }
+}

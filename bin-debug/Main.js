@@ -128,7 +128,49 @@ var Main = (function (_super) {
         });
     };
     Main.prototype.createGameScene = function () {
-        egret.log("hello,老师", [1, 2, 2]);
+        var vertexSrc = "attribute vec2 aVertexPosition;\n" +
+            "attribute vec2 aTextureCoord;\n" +
+            "attribute vec2 aColor;\n" +
+            "uniform vec2 projectionVector;\n" +
+            "varying vec2 vTextureCoord;\n" +
+            "const vec2 center = vec2(-1.0, 1.0);\n" +
+            "void main(void) {\n" +
+            "   gl_Position = vec4( (aVertexPosition / projectionVector) + center , 0.0, 1.0);\n" +
+            "   vTextureCoord = aTextureCoord;\n" +
+            "}";
+        var fragmentSrc = "precision lowp float;\n" +
+            "varying vec2 vTextureCoord;\n" +
+            "uniform float width;\n" +
+            "uniform float height;\n" +
+            "void main(void) {\n" +
+            "vec4 fg;\n" +
+            "if(mod(floor(vTextureCoord.x / width) + floor(vTextureCoord.y / height), 2.0) == 0.0) {" +
+            "fg = vec4(1,1,1,1);" +
+            "}" +
+            "else {" +
+            "fg = vec4(0,0,0,1);" +
+            "}" +
+            "gl_FragColor = fg;\n" +
+            "}";
+        var sky = this.createBitmapByName("7262f15fd9a1c0402837510b326cc952cdb33755_jpg");
+        sky.width = this.stage.stageWidth;
+        sky.height = this.stage.stageHeight;
+        this.addChild(sky);
+        var size = 50;
+        var filter = new egret.CustomFilter(vertexSrc, fragmentSrc, { width: size / this.stage.stageWidth, height: size / this.stage.stageHeight });
+        sky.filters = [filter];
+        var inc = 1;
+        this.stage.addEventListener(egret.Event.ENTER_FRAME, function () {
+            size += inc;
+            if (size >= 80) {
+                inc = -1;
+            }
+            if (size <= 50) {
+                inc = 1;
+            }
+            filter.uniforms.width = size / this.stage.stageWidth;
+            filter.uniforms.height = size / this.stage.stageHeight;
+        }, this);
     };
     Main.prototype.createBitmapByName = function (name) {
         var result = new egret.Bitmap();

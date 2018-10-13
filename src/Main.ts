@@ -37,6 +37,7 @@ class Main extends eui.UILayer {
      * TODO: 网路那一章的内容先跳过不看
      * TODO: 数据库，服务器端，美术资源
      * TODO: 小游戏最后搞明白！
+     * TODO: 发布native程序搞明白
      */
 
     protected createChildren(): void {
@@ -483,7 +484,7 @@ class Main extends eui.UILayer {
         // shp.graphics.drawCircle(0, 0, 20);
         // shp.graphics.endFill();
         // this.addChild(shp);
-        // var isHit: boolean = shp.hitTestPoint(19, 19, true);
+        // let isHit: boolean = shp.hitTestPoint(19, 19, true);
         // console.log(isHit);
 
 
@@ -798,7 +799,46 @@ class Main extends eui.UILayer {
         // egret 提供了动态纹理类egret.RenderTexture，用来将显示对象及其子对象绘制成为一个纹理，以实现截图功能。
         // 示例代码：let renderTexture:egret.RenderTexture = new egret.RenderTexture();
         // 示例代码：renderTexture.drawToTexture(displayObject);
-        // TODO: 暂时不看截屏功能
+        // 方法：toDataURL()，，将纹理转换成以 “data:image/png;base64,” 开头的base64数据。
+        // 用法为：texture.toDataURL("image/png", new egret.Rectangle(20, 20, 100, 100));
+        // 第一个参数：目前只支持 “image/png” 和 “image/jpeg”。第二个参数：截取的区域，默认为texture整个大小
+        // 因为是对texture本身进行的截取转换，所以即便Bitmap有缩放等变形操作，也不会影响texture截取区域的大小。
+
+        // let texture:egret.Texture = RES.getRes("1_png");   // 直接输入subkey即可，不用输入json名#subkey名
+        // console.log(texture.toDataURL("image/png"));
+
+
+
+        // 方法：saveToFile()
+        // 用法为：texture.saveToFile("image/png", "a/down.png", new egret.Rectangle(20, 20, 100, 100));
+        // 第一个参数是图片格式；第二个参数是保存的文件名称（路径）；第三个参数是截取的区域
+        // 浏览器只支持保存名称，所以像 “a/down.png” 这种写法，浏览器会自动将其改成”a-down.png”。图片会保存在浏览器下载的位置。
+        // Native下是可以保存路径的。图片会保存在游戏的私有空间，路径中不能有 “../“。
+        // 这里为了兼容所有的平台，建议大家不要使用路径。
+        // let texture: egret.Texture = RES.getRes("1_png");
+        // texture.saveToFile("image/png", "a/down.png", new egret.Rectangle(0, 0, 100, 100));  //弹出下载界面
+
+
+
+        // egret.RenderTexture中的drawToTexturev()方法，将指定显示对象绘制为一个纹理；需要注意的是，这个方法会把当前的纹理清除，如果想要保留之前的纹理，需要使用 2 个 RenderTexture 交替绘制。
+        // let img: egret.Bitmap = new egret.Bitmap();
+        // let texture: egret.Texture = RES.getRes("1_png");
+        // img.texture = texture;
+        // this.addChild(img);
+        // let renderTexture: egret.RenderTexture = new egret.RenderTexture();
+        // renderTexture.drawToTexture(img, new egret.Rectangle(0, 0, 1024, 768));
+        // // renderTexture2.drawToTexture(this, new egret.Rectangle(0, 0, 1024, 768));
+
+        // 交替使用 RenderTexture 示例代码:
+        // if (this.bmp.texture == this.renderTexture) {
+        //     this.renderTexture2.drawToTexture(this, new egret.Rectangle(0, 0, 1024, 768));   
+        //     this.bmp.texture = this.renderTexture2;
+        // } else {
+        //     this.renderTexture.drawToTexture(this, new egret.Rectangle(0, 0, 1024, 768)); 
+        //     this.bmp.texture = this.renderTexture;
+        // }
+        // 其中 this.bmp 是保存画板的位图对象，this.renderTexture 和 this.renderTexture2 是用来保存纹理的 RenderTexture 对象。
+        // 更新画板的纹理时使用与当前不同的 RenderTexture 对象保证上一次的纹理不被清空。
 
 
 
@@ -960,9 +1000,68 @@ class Main extends eui.UILayer {
 
 
 
-        /**
-         * TODO: 自定义Shader暂时不看
-         */
+        // 自定义Shader
+        // egret 5.0.3 以上版本中提供了 egret.CustomFilter ，供开发者自由扩展滤镜，实现各种定制化效果。
+        // CustomFilter 构造函数中需要传入顶点着色器和片段着色器程序的字符串，以及 uniforms 对象
+        // 开发者可以根据项目需求自行编写顶点着色器和片段着色器程序
+        // 顶点着色器中aVertexPosition，aTextureCoord，aColor，projectionVector属性由引擎传入
+        // 引擎渲染之前会将 uniforms 对象的属性上传到着色器中，开发者可以每帧改变 uniforms 对象的属性达到实现不同效果的需求。该属性目前只支持数字和数组
+        // egret.CustomFilter 同时提供了 padding 属性，该属性为滤镜的内边距，如果自定义滤镜所需区域比原区域大（如引擎提供的描边滤镜），需要手动设置该属性。该属性以像素为单位
+        
+        // // 顶点着色器代码：
+        // let vertexSrc =
+        //     "attribute vec2 aVertexPosition;\n" +
+        //     "attribute vec2 aTextureCoord;\n" +
+        //     "attribute vec2 aColor;\n" +
+        //     "uniform vec2 projectionVector;\n" +
+        //     "varying vec2 vTextureCoord;\n" +
+        //     "const vec2 center = vec2(-1.0, 1.0);\n" +
+        //     "void main(void) {\n" +
+        //     "   gl_Position = vec4( (aVertexPosition / projectionVector) + center , 0.0, 1.0);\n" +
+        //     "   vTextureCoord = aTextureCoord;\n" +
+        //     "}";
+        
+        // // 片段着色器代码：
+        // let fragmentSrc =
+        //     "precision lowp float;\n" +
+        //     "varying vec2 vTextureCoord;\n" +
+        //     "uniform float width;\n" +
+        //     "uniform float height;\n" +
+        //     "void main(void) {\n" +
+        //     "vec4 fg;\n" +
+        //     "if(mod(floor(vTextureCoord.x / width) + floor(vTextureCoord.y / height), 2.0) == 0.0) {" +
+        //     "fg = vec4(1,1,1,1);" +
+        //     "}" +
+        //     "else {" +
+        //     "fg = vec4(0,0,0,1);" +
+        //     "}" +
+        //     "gl_FragColor = fg;\n" +
+        //     "}";
+        
+        // // 在代码中定义了每个方格的宽高，这两个值由uniforms属性传入。之后根据uv信息以及传入的宽高，利用取余函数算出奇偶数，通过奇偶决定方格是黑色还是白色。
+        // // 对背景图使用自定义滤镜，设定每个方格大小为50像素：
+
+        // let sky: egret.Bitmap = this.createBitmapByName("7262f15fd9a1c0402837510b326cc952cdb33755_jpg");
+        // sky.width = this.stage.stageWidth;
+        // sky.height = this.stage.stageHeight;
+        // this.addChild(sky);
+        // let size = 50;
+        // let filter = new egret.CustomFilter(vertexSrc, fragmentSrc, { width: size / this.stage.stageWidth, height: size / this.stage.stageHeight });
+        // sky.filters = [filter];
+
+        // // 之后再通过帧函数改变方格大小(uniforms属性)：
+        // let inc = 1;
+        // this.stage.addEventListener(egret.Event.ENTER_FRAME, function () {
+        //     size += inc;
+        //     if (size >= 80) {
+        //         inc = -1;
+        //     }
+        //     if (size <= 50) {
+        //         inc = 1;
+        //     }
+        //     filter.uniforms.width = size / this.stage.stageWidth;
+        //     filter.uniforms.height = size / this.stage.stageHeight;
+        // }, this);
 
 
 
@@ -1044,7 +1143,7 @@ class Main extends eui.UILayer {
 
 
         // 音频示例
-        // 通过 var sound: egret.Sound = new egret.Sound() 创建 Sound 对象，
+        // 通过 let sound: egret.Sound = new egret.Sound() 创建 Sound 对象，
         // 再通过 sound.load(url)加载，Sound 类支持的事件类型有两个：
         // egret.Event.COMPLETE 音频加载完成时抛出；
         // egret.IOErrorEvent.IO_ERROR 音频加载失败时抛出.
@@ -1122,7 +1221,226 @@ class Main extends eui.UILayer {
 
 
         // 视频
-        // TODO: 暂时跳过视频和环境信息
+        // TODO: 视频示例代码过一下
+        // 在 Egret 中，可通过egret.Video来创建和管理视频。需要注意的是，大部分移动设备只支持全屏播放。
+        // W3C 提供了在线地址来测试 HTML5 的视频功能。地址为：http://media.w3.org/2010/05/sintel/trailer.mp4
+        // let video: egret.Video = new egret.Video();
+        // video.width = 640;
+        // video.height = 320;
+        // video.fullscreen = false;   // 微信也支持了全屏，在大多数移动设备中，视频是强制全屏播放的。当在手机上点击播放时会弹出全屏的播放器。而这样设定不会全屏播放。
+        // video.poster = "resource/7262f15fd9a1c0402837510b326cc952cdb33755.jpg";  //要本地的url才行
+        // video.load("resource/trailer.mp4");   //只能用本地，不能跨域
+        // this.addChild(video);   //添加了还是暂时播放不了
+        // // video.play();   // 要等先加载完再play，这样的写法是不规范的
+        // video.once(egret.Event.COMPLETE, onLoad, this);
+        // video.once(egret.IOErrorEvent.IO_ERROR, onLoadErr, this);
+        
+        // function onLoad(e: egret.Event) {
+        //     let btnPlay: egret.Shape = new egret.Shape();
+        //     btnPlay.graphics.beginFill(0x00ff00);
+        //     btnPlay.graphics.drawRect(0, 0, 50, 30);
+        //     btnPlay.graphics.endFill()
+        //     btnPlay.x = video.x + 20;
+        //     btnPlay.y = video.y + video.height + 20;
+        //     this.addChild(btnPlay);
+        //     btnPlay.touchEnabled = true;
+        //     //监听按钮行为，当按下时调用播放函数。
+        //     btnPlay.addEventListener(egret.TouchEvent.TOUCH_TAP,play,this);
+        //     //获取视频长度
+        //     console.log(video.length);
+        // }
+
+        // function onLoadErr(e: egret.IOErrorEvent) {
+        //     console.log("video load error happened");
+        // }
+
+        // function play(e: egret.TouchEvent) {
+        //     video.play();    // 这里视频的play()方法有两个参数，为播放的位置和是否循环。默认的从头开始播放，并且不循环。
+        //     // video.pause(); //暂停视频，最好添加一个按钮实现pause
+        // }
+
+
+
+        /* TODO: 这里还没看到eui部分的theme，先跳过*/        
+        // 这里需要注意的是在 EUI 默认项目的入口文件类里面需要实例化上面的VideoTest,并删除默认的 UI。代码如下：
+        // class Main extends eui.UILayer {
+        //     protected createChildren(): void {
+        //         super.createChildren();
+        //         let theme = new eui.Theme("resource/default.thm.json", this.stage);
+        //         this.addChild(new VideoTest());
+        //     }
+        // }
+
+
+
+        /* TODO: 这里还没看到eui部分的HSlider，先跳过*/          
+        // 通过设置Video的volume属性可以设置其音量的大小。其属性值为0到1。
+        // 下面通过 EUI 的水平滑块来控制。同样在onLoad函数中添加如下代码：
+
+        // //设置控制音量的滑块，监听它的CHANGE事件,当滑动滑块时回调 `setVoluem()` 函数。
+        // 示例代码：let volume:eui.HSlider = new eui.HSlider();
+        // 示例代码：volume.x = btnPlay.x;
+        // 示例代码：volume.y = btnPlay.y + btnPlay.height + 20;
+        // 示例代码：this.addChild(volume);
+        // 示例代码：volume.value = 100;
+        // 示例代码：volume.maximum = 100;
+        // 示例代码：volume.minimum = 0;
+        // 示例代码：volume.width = 200;
+        // 示例代码：volume.addEventListener(egret.Event.CHANGE,this.setVoluem,this);
+        // 然后在VideoTest类中添加设置音量的函数：
+
+        // 示例代码：public setVoluem(e:egret.Event) {
+        // 示例代码：    this.video.volume = e.target.value / 100;
+        // 示例代码：}
+        // 这里滑块设置的最大值和最小值是0和100，由于volume的默认值为0到1,所以要除以100.
+
+
+
+        // 全屏播放：只有在桌面浏览器上才能控制非全屏的效果。通过设置fullscreen属性来控制是否全屏。默认值为true，即全屏播放。
+        //设置全屏播放开关按钮
+        // 示例代码：let screenSwitcher:eui.ToggleSwitch = new eui.ToggleSwitch();
+        // 示例代码：screenSwitcher.label = "全屏";
+        // 示例代码：screenSwitcher.x = btnPause.x + btnPause.width + 20;
+        // 示例代码：screenSwitcher.y = btnPause.y;
+        // 示例代码：screenSwitcher.addEventListener(egret.Event.CHANGE,this.setFullScreen,this);
+        // 示例代码：this.addChild(screenSwitcher);
+        // 然后在VideoTest类中添加设置是否全屏显示的函数：
+
+        // 示例代码：public setFullScreen(e:egret.Event) {
+        // 示例代码：    //当开关被选择后。该开关的selected属性将变为true,反之则为false
+        // 示例代码：    this.video.fullscreen =e.target.selected;
+        // 示例代码：}
+
+
+
+        // 显示播放时间
+        // Video的position属性表示视频文件中当前播放的位置（以秒为单位）。
+        // 同样在onLoad函数中添加如下代码，用来显示播放时间。
+        // //使用label标签来显示文字，并监听`ENTER_FRAME`事件来更新显示。
+        // 示例代码：let position:eui.Label = new eui.Label();
+        // 示例代码：position.x = btnPlay.x;
+        // 示例代码：position.y = volume.y + volume.height + 20;
+        // 示例代码：this.addChild(position);
+        // 示例代码：position.addEventListener(egret.Event.ENTER_FRAME,this.showPosition,this);
+        // 然后在VideoTest类中添加显示播放时间的函数：
+
+        // 示例代码：public showPosition(e:egret.Event) {
+        // 示例代码：    e.target.text = "播放时间: " + this.video.position;
+        // 示例代码：}
+
+
+
+        // 获取视频的bitmapData
+        // 通过视频的bitmapData属性可以获得其当前帧的纹理信息。可以将它绘制到舞台上。
+        // 在onLoad函数中添加截图的按钮，点击该按钮将在舞台上添加一张截图:
+        // 示例代码：let btnPrintScreen:eui.Button = new eui.Button();
+        // 示例代码：btnPrintScreen.label = "截图";
+        // 示例代码：btnPrintScreen.x = screenSwitcher.x + screenSwitcher.width + 40;
+        // 示例代码：btnPrintScreen.y = btnPlay.y;
+        // 示例代码：this.addChild(btnPrintScreen);
+        // 示例代码：btnPrintScreen.addEventListener(egret.TouchEvent.TOUCH_TAP,this.printScreen,this);
+        // 然后在VideoTest类中添加截图的函数：
+
+        // 示例代码：public printScreen(e:egret.Event) {
+        // 示例代码：    let bitmap:egret.Bitmap = new egret.Bitmap();
+        // 示例代码：    bitmap.bitmapData = this.video.bitmapData;
+        // 示例代码：    bitmap.x = this.video.x;
+        // 示例代码：    bitmap.y = this.video.y + this.video.height + 150;
+        // 示例代码：    this.addChild(bitmap);
+        // 示例代码：}
+        // 这里创建了一个位图，并将它的bitmapData属性设置为视频的bitmapData属性。将该位图添加到舞台上面就可以显示截图了。
+
+
+
+        // 环境信息
+        // // 若要获得不同系统的系统信息可以通过egret.Capabilities类来获取。要注意的是它的值都是静态的，可以读取但是不能更改。
+        // console.log(egret.Capabilities.isMobile);   // 程序是否运行在移动系统中
+        // console.log(egret.Capabilities.language);   // 表示运行内容的系统的语言代码。它的值是ISO 639-1中的小写双字母语言代码。
+        // // 简体中文 zh-CN
+        // // 繁体中文 zh-TW
+        // // 英语 en
+        // // 日语 ja
+        // // 韩语 ko
+        // console.log(egret.Capabilities.os);
+        // // 苹果手机操作系统 “iOS”
+        // // 安卓手机操作系统 “Android”
+        // // 微软手机操作系统 “Windows Phone”
+        // // 微软桌面操作系统 “Windows PC”
+        // // 苹果桌面操作系统 “Mac OS”
+        // // 未知操作系统 “Unknown”
+        // console.log(egret.Capabilities.runtimeType);
+        // // web	egret.RuntimeType.WEB	运行在浏览器上
+        // // native	egret.RuntimeType.NATIVE	运行在第一代原生项目上
+        // // runtime2	egret.RuntimeType.RUNTIME2	运行在第二代原生项目上
+        // // wxgame	egret.RuntimeType.WXGAME	运行在微信小游戏上
+
+
+
+        // 陀螺仪
+        // let orientation = new egret.DeviceOrientation();
+        // orientation.addEventListener(egret.Event.CHANGE, onOrientation, this);
+        // orientation.start();
+
+        // let label = new egret.TextField();
+        // this.addChild(label);
+
+        // function onOrientation(e:egret.OrientationEvent){
+        //     label.text =
+        //         "方向: nalpha:"+e.alpha
+        //         +",nbeta:"+e.beta
+        //         +",ngamma:"+e.gamma;
+        // }
+
+        // alpha表示设备绕 Z 轴的角度，单位是 角度 范围是 0 到 360。
+        // beta 表示设备绕 X 轴的角度，单位是 角度 范围是 -180 到 180.这个值表示设备从前向后的旋转状态。
+        // gamma 表示设备绕 Y 轴的角度，单位是 角度 范围是 -90 到 90.这个值表示设备从左到右的旋转状态。
+
+
+
+        // FIXME: 浏览器端和wing端获取不了位置信息，手机微信扫码可以获取        
+        // 通过 Egret 的 Geolocation类来获取设备的当前位置。
+        // 当开始监听位置改变信息时将派发CHANGE事件，并将改变的位置信息传递给回调函数。
+        // 通过GeolocationEvent类型的回调参数可以获取到相应的经纬度，速度，海拔等信息。
+        // 电脑端监听不到，微信端可以
+
+        // latitude 纬度信息
+        // longitude 经度信息
+        // altitude 海拔信息
+        // speed 速度信息
+        // 需要注意的是altitude和speed可能是null
+
+        // let gps = new egret.Geolocation();
+        // gps.addEventListener(egret.Event.CHANGE, onGotLocation, this);
+        // gps.start();
+
+        // let label: egret.TextField = new egret.TextField();
+        // label.x = this.stage.stageWidth / 2;
+        // label.text = "暂未获取到经纬度信息";
+        // label.anchorOffsetX = label.width / 2;
+        // this.addChild(label);
+
+        // function onGotLocation(e: egret.GeolocationEvent) {
+        //     label.text = "纬度: "+e.latitude.toFixed(4)+
+        //         " 海拔: "+e.altitude+
+        //         " 经度:"+e.longitude.toFixed(4)
+        //         +" 速度: "+e.speed;
+        //     label.anchorOffsetX = label.width / 2;
+        // }
+
+        // gps.once(egret.GeolocationEvent.PERMISSION_DENIED,userDenied,this);     // 获取失败
+        // function userDenied(e: egret.GeolocationEvent) {
+        //     label.text = "用户拒绝访问位置信息，获取位置信息失败";
+        //     label.anchorOffsetX = label.width / 2;
+        // }
+
+        // // 如果由于其他原因未能获取位置信息，将抛出GeolocationEvent的UNAVAILABLE事件。这里完善上面的程序，添加不能获取信息时的处理：
+
+        // gps.addEventListener(egret.GeolocationEvent.UNAVAILABLE, unAvailable, this);
+        // function unAvailable (e:egret.GeolocationEvent) {
+        //     label.text = "获取位置信息失败: " + e.errorMessage + "\n"
+        //         + "错误类型: " + e.errorType;
+        //     label.anchorOffsetX = label.width / 2;
+        // }
 
 
 
@@ -1174,7 +1492,7 @@ class Main extends eui.UILayer {
         // 下面代码不能运行的！        
         // let value="1,2,3,4"        
         // if (DEBUG) {
-        //     var rect = value.split(",");
+        //     let rect = value.split(",");
         //     if (rect.length != 4 || isNaN(parseInt(rect[0])) || isNaN(parseInt(rect[1])) ||
         //         isNaN(parseInt(rect[2])) || isNaN(parseInt(rect[3]))) {
         //         egret.$error(2016, this.currentClassName, toXMLString(node));
@@ -1233,6 +1551,19 @@ class Main extends eui.UILayer {
 
         // 发布项目：egret publish，或者用launcher来发布
         // 在 Html5 类型里可以填写版本号，用于版本控制。查看bin-release文件夹
+
+        // let pic1: egret.Bitmap = this.createBitmapByName("1_png");
+        // let pic2: egret.Bitmap = this.createBitmapByName("2_png");
+        // let pic3: egret.Bitmap = this.createBitmapByName("3_png");
+        // let pic4: egret.Bitmap = this.createBitmapByName("4_png");
+        // this.addChild(pic1);
+        // this.addChild(pic2);
+        // this.addChild(pic3);
+        // this.addChild(pic4);
+        // pic2.x = 100;
+        // pic3.y = 100;
+        // pic4.x = 100;
+        // pic4.y = 100;
     }
 
     private animal: egret.Bitmap;
